@@ -13,6 +13,22 @@ export const fetchPlaces=(locationName, searchTerm) => {
     }
 }
 
+export const myLocations = () => {
+    return (dispatch) => {
+        dispatch({type: 'LOADING_LOCATIONS'})
+        fetch(`${BASE_URL}/locations/`).then(response => response.json()).then(locationData => dispatch({type: 'ADD_LOCATIONS', locations: [locationData]}))
+        // response data needs to be checked
+    }
+}
+
+export const myPois = (locationId) => {
+    return (dispatch) => {
+        dispatch({type: 'LOADING_POIS'})
+        fetch(`${BASE_URL}/locations/${locationId}/pois`).then(response => response.json()).then(poiData => dispatch({type: 'ADD_POIS', pois: [poiData]}))
+        // response data needs to be checked
+    }
+}
+
 export const saveLocation=(locationName, startVisit, endVisit) => {
     return (dispatch) => {
         dispatch({type: 'SAVE_LOCATION'})
@@ -21,6 +37,7 @@ export const saveLocation=(locationName, startVisit, endVisit) => {
             start_visit: startVisit,
             end_visit: endVisit
         })}}).then(response => response.json()).then(responseJSON => {dispatch({type: 'ADD_LOCATION', location: responseJSON})})
+        // response data needs to be checked
     }
 }
 

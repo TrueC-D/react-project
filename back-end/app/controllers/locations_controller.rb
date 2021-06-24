@@ -16,6 +16,8 @@ class LocationsController < ApplicationController
         if location.valid?
             location.save
             render json: LocationSerializer.new(location)
+        else 
+            render json: {message: 'input not valid'}
         end
     end
 
@@ -26,7 +28,11 @@ class LocationsController < ApplicationController
             if location.valid?
                 location.save
                 render json: LocationSerializer.new(location)
+            else 
+                render json: {message: 'input not valid'}
             end
+        else
+            render json: {message: 'location not found'}
         end
     end
 

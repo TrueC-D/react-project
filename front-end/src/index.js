@@ -3,24 +3,25 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import {Provider} from 'react-redux'
-import {createStore, applyMiddleware} from 'redux';
+import {createStore, applyMiddleware, combineReducers} from 'redux';
 // why again?
 import thunk from 'redux-thunk'
-// import poiReducer from './reducers/poiReducer'
+import poiReducer from './reducers/poiReducer'
 // says it doesn't exist for some reason
 import locationReducer from './reducers/locationReducer'
 
 // require('dotenv').config()
-console.log(process.env.REACT_APP_FOURSQUARE_CLIENT_ID)
+
 
 // import reportWebVitals from './reportWebVitals';
 
-// const rootReducer = combineReducers({
-//   locationReducer,
-//   // poiReducer
-// })
+const rootReducer = combineReducers({
+  locationReducer,
+  poiReducer
+})
 
-const store = createStore(locationReducer, applyMiddleware(thunk))
+// const store = createStore(locationReducer, applyMiddleware(thunk))
+const store = createStore(rootReducer, applyMiddleware(thunk))
 
 ReactDOM.render(
   <Provider store={store}>

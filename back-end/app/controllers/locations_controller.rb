@@ -6,7 +6,6 @@ class LocationsController < ApplicationController
 
     def show
         find_location
-        # can look at old rails project to see how i save parsed datetime if needed
         options = {include: [:pois]}
         render json: LocationSerializer.new(location, options)
     end
@@ -55,3 +54,4 @@ class LocationsController < ApplicationController
         params.require(:location).permit(:name, :start_visit, :end_visit)
     end
 end
+

@@ -1,6 +1,6 @@
-// has state to keep track of search input 
 import React, {Component} from 'react'
 import {fetchPlaces} from '../actions/actions'
+import {connect} from 'react-redux'
 
 class PoiSearchInput extends Component {
     state = {
@@ -15,7 +15,7 @@ class PoiSearchInput extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
-        this.props.fetchPlaces(this.state.searchTerm, this.props.location.id)
+        this.props.fetchPlaces(this.state.searchTerm, this.props.locationId)
         // check if i passed in correct parameters
         this.setState({searchTerm: ''})
         event.target.clear('display')

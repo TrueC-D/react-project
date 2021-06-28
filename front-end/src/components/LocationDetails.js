@@ -10,3 +10,5 @@ const LocationDetails = ({name, startVisit, endVisit}) =>{
         <p>Departure: {endVisit}</p>
     </div>
 }
+
+export default LocationDetails

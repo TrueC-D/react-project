@@ -2,10 +2,10 @@
 // presentational
 import React from 'react';
 
-const PoiCard = ({poiName, votes, category, street, city, state, zip, notes, upvotePoi, downvotePoi, removePoi}) =>{
+const PoiCard = ({icon, poiName, votes, category, street, city, state, zip, notes, upvotePoi, downvotePoi, removePoi}) =>{
     // need to inherit props listed above
     <div>
-        <image src={poi.icon}></image>
+        <image src={icon}></image>
                 {/* icon -> not sure if it will load.  if it does then would like to add to model, saving may be restricted */}
         <h2>{poiName}</h2>
         <p>Votes: {votes}</p>
@@ -17,3 +17,5 @@ const PoiCard = ({poiName, votes, category, street, city, state, zip, notes, upv
     </div>
 
 }
+
+export default PoiCard

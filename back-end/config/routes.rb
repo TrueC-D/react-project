@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
-  resources :locations, defaults: {format: :json} do 
+  # resources :locations, defaults: {format: :json} do 
+  #   resources :pois
+  #   # resources :hours
+  # end
+  # by commenting this out will i make a bug in my fetch call? -> strong params bug from earlier
+
+  resources :locations do 
     resources :pois
     # resources :hours
   end

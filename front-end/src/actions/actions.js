@@ -9,10 +9,10 @@ const BASE_URL = "http://localhost:3000"
 
 export const fetchPlaces=(locationName, searchTerm) => {
     return (dispatch) => {
-        dispatch({type: 'LOADING_PLACES'})
+        dispatch({type: 'LOADING'})
         fetch(`https://api.foursquare.com/v2/venues/explore?near=${locationName}&query=${searchTerm}&client_id=${process.env.REACT_APP_FOURSQUARE_CLIENT_ID}&client_secret=${process.env.REACT_APP_FOURSQUARE_CLIENT_SECRET}`).then(
             response => response.json()).then(data => {
-                dispatch({type: 'ADD_PLACES', places: [data.response.groups[0].items] })
+                dispatch({type: 'REFRESH_PLACES', places: [data.response.groups[0].items] })
             })
     }
 }
@@ -21,16 +21,16 @@ export const fetchPlaces=(locationName, searchTerm) => {
 
 export const myLocations = () => {
     return (dispatch) => {
-        dispatch({type: 'LOADING_LOCATIONS'})
-        fetch(`${BASE_URL}/locations/`).then(response => response.json()).then(locationData => dispatch({type: 'ADD_LOCATIONS', locations: [locationData]}))
+        dispatch({type: 'LOADING'})
+fetch(`${BASE_URL}/locations`).then(response => response.json()).then(locationData => dispatch({type: 'REFRESH_LOCATIONS', locations: [locationData]}))
         // response data needs to be checked
     }
 }
 
 export const myPois = (locationId) => {
     return (dispatch) => {
-        dispatch({type: 'LOADING_POIS'})
-        fetch(`${BASE_URL}/locations/${locationId}/pois`).then(response => response.json()).then(poiData => dispatch({type: 'ADD_POIS', pois: [poiData]}))
+        dispatch({type: 'LOADING'})
+        fetch(`${BASE_URL}/locations/${locationId}/pois`).then(response => response.json()).then(poiData => dispatch({type: 'REFRESH_POIS', pois: [poiData]}))
         // response data needs to be checked
     }
 }
@@ -39,7 +39,7 @@ export const myPois = (locationId) => {
 
 export const saveLocation=(locationName, startVisit, endVisit) => {
     return (dispatch) => {
-        dispatch({type: 'SAVE_LOCATION'})
+        dispatch({type: 'LOADING'})
 
         const bodyData = {location:{name: locationName, start_visit: startVisit, end_visit: endVisit}}
 
@@ -53,24 +53,32 @@ export const saveLocation=(locationName, startVisit, endVisit) => {
 }
 
 
-export const updatePoi = (startVisit, endVisit, locationId) => {
+export const updateLocation = (startVisit, endVisit, locationId) => {
     return (dispatch) =>{
-        dispatch({type: 'UPDATE_LOCATION_DATABASE'})
-        const bodyData = {location: {id: locationId, start_visit: startVisit, end_visit: endVisit}}
-        fetch('url here', {
+        dispatch({type: 'LOADING'})
+        const bodyData = {location: {start_visit: startVisit, end_visit: endVisit}}
+        // just changed body data to remove location id since this shouldn't be updated in patch. Have to check params in back-end and make sure it doesn't cause errors
+        fetch(`${BASE_URL}/locations/${locationId}`, {
             method: 'PATCH',
             headers: {'Accept': 'application/json', 'Content-Type':'application/json'},
             body: JSON.stringify(bodyData)
-        }).then(response => response.json()).then(responseJSON => {dispatch({type: 'UPDATE_LOCATION_REDUX', location: responseJSON})})
+        }).then(response => response.json()).then(responseJSON => {dispatch({type: 'UPDATE_LOCATION', location: responseJSON})})
 
+    }
+}
+
+export const removeLocation= (locationId) => {
+    return (dispatch) => {
+        dispatch({type: 'LOADING'})
+        fetch(`${BASE_URL}/locations/${locationId}`, {method: 'DELETE'}).then(res => res.json()).then(item => {dispatch({type: 'DELETE_LOCATION', locationId: item.data.id})})
     }
 }
 
 // POI ACTIONS:
 
-export const savePoi = (poiName, category, votes, notes, street, city, state, zip, location_id) => {
+export const savePoi = (poiName, category, votes, notes, street, city, state, zip, locationId) => {
     return (dispatch) => {
-        dispatch({type: 'SAVE_POI'})
+        dispatch({type: 'LOADING'})
         const bodyData = {poi: {
             name: poiName,
             category: category,
@@ -93,13 +101,13 @@ export const savePoi = (poiName, category, votes, notes, street, city, state, zi
 
 export const updatePoi = (votes, notes, poiId) => {
     return (dispatch) =>{
-        dispatch({type: 'UPDATE_POI_DATABASE'})
+        dispatch({type: 'LOADING'})
         const bodyData = {poi: {id: poiId, votes: votes, notes: notes}}
         fetch('url here', {
             method: 'PATCH',
             headers: {'Accept': 'application/json', 'Content-Type':'application/json'},
             body: JSON.stringify(bodyData)
-        }).then(response => response.json()).then(responseJSON => {dispatch({type: 'UPDATE_POI_REDUX', poi: responseJSON})})
+        }).then(response => response.json()).then(responseJSON => {dispatch({type: 'UPDATE_POI', poi: responseJSON})})
 
     }
 }

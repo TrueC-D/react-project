@@ -3,17 +3,20 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import {Provider} from 'react-redux'
-import {createStore, applyMiddleware, combineReducers} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 // why again?
 import thunk from 'redux-thunk'
-import poiReducer from './reducers/poiReducer'
-import locationReducer from './reducers/locationReducer'
+import reducer from './reducers/reducer'
+// import poiReducer from './reducers/poiReducer'
+// import locationReducer from './reducers/locationReducer'
+// import placesReducer from './reducers/placesReducer';
 
-const rootReducer = combineReducers({
-  locationReducer,
-  poiReducer
-})
-const store = createStore(rootReducer, applyMiddleware(thunk))
+// const rootReducer = combineReducers({
+//   locationReducer,
+//   poiReducer,
+//   placesReducer
+// })
+const store = createStore(reducer, applyMiddleware(thunk))
 
 ReactDOM.render(
   <Provider store={store}>

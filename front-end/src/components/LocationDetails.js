@@ -2,13 +2,13 @@
 // presentational
 import React from 'react';
 
-const LocationDetails = ({name, startVisit, endVisit}) =>{
+const LocationDetails = ({thisLocation}) =>{
     // need to inherit props listed above from location
-    <div>
-        <h2>{name}</h2>
-        <p>Arrival: {startVisit}</p>
-        <p>Departure: {endVisit}</p>
-    </div>
+    return(<div>
+        <h2>{thisLocation.name}</h2>
+        <p>Arrival: {thisLocation.start_visit}</p>
+        <p>Departure: {thisLocation.end_visit}</p>
+    </div>)
 }
 
 export default LocationDetails

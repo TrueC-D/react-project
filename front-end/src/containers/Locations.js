@@ -9,18 +9,18 @@ import { connect } from 'react-redux'
 class Locations extends Component {
 
     handleClick = (event) => {
-        let locationId = event.target.key
-        this.props.removeLocation(locationId)
+        this.props.removeLocation(event.target.id)
     }
 
     render(){
         console.log('Locations props', this.props)
-        const locationData = this.props.locations.map(location => 
-            <div>
-                <LocationDetails location={location}/>
-                <button key={location.id} onClick={this.handleClick}>X</button>
-            </div>
-        )
+        const locationData = this.props.locations.map((location, key) => {
+            return(
+            <div className={'loc-list-item'} key={key}>
+                <LocationDetails thisLocation={location.attributes}/>
+                <button id={location.id} onClick={this.handleClick}>Delete</button>
+            </div>)
+        })
         return(
             <div>
                 <LocationCreate />

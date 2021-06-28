@@ -7,8 +7,6 @@ class LocationCreate extends Component {
         locName: '',
         startDatetime: '',
         endDatetime: ''
-
-
     }
 
     handleChange = event => {
@@ -19,12 +17,12 @@ class LocationCreate extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
-        this.props.saveLocation(this.state.text)
+        debugger
+        this.props.saveLocation(this.state)
         // check if i passed in correct parameters
         this.setState({ locName: '',
         startDatetime: '',
         endDatetime: ''})
-        event.target.clear('display')
     }
 
 
@@ -35,7 +33,7 @@ class LocationCreate extends Component {
             <label>Add New Location:</label>
             <form onSubmit={this.handleSubmit}>
                 <label >Location Name:</label>
-                <input onChange={this.handleChange} id={'loc-name'} type={'text'}/>
+                <input onChange={this.handleChange} id={'locName'} type={'text'}/>
                 <label >Visit Start Date:</label>
                 <input onChange={this.handleChange} id={'startDatetime'} type={'datetime-local'}/>
                 <label  >Visit End Date:</label>

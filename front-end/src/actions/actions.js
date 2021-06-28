@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000"
+const BASE_URL = "http://localhost:3001"
 
 // IMPORTANT DEVELOPMENT NOTE:
 
@@ -22,7 +22,7 @@ export const fetchPlaces=(locationName, searchTerm) => {
 export const myLocations = () => {
     return (dispatch) => {
         dispatch({type: 'LOADING'})
-fetch(`${BASE_URL}/locations`).then(response => response.json()).then(locationData => dispatch({type: 'REFRESH_LOCATIONS', locations: [locationData]}))
+fetch(`${BASE_URL}/locations`).then(response => response.json()).then(locationData => {dispatch({type: 'REFRESH_LOCATIONS', locations: locationData.data})})
         // response data needs to be checked
     }
 }
@@ -37,15 +37,15 @@ export const myPois = (locationId) => {
 
 // LOCATION ACTIONS:
 
-export const saveLocation=(locationName, startVisit, endVisit) => {
+export const saveLocation=({locName, startDatetime, endDatetime}) => {
     return (dispatch) => {
         dispatch({type: 'LOADING'})
 
-        const bodyData = {location:{name: locationName, start_visit: startVisit, end_visit: endVisit}}
+        const bodyData = {location: {name: locName, start_visit: startDatetime, end_visit: endDatetime} }
 
         fetch(`${BASE_URL}/locations`, {
             method: 'POST', 
-            headers: {'Accept': 'application/json','Content-Type':'application/json'}, 
+            headers: {'Accept': 'application/json', 'Content-Type':'application/json'}, 
             body: JSON.stringify(bodyData)}).then(response => response.json()).then(
                 res => {dispatch({type:'ADD_LOCATION', location: res.data})}
             )
@@ -70,7 +70,7 @@ export const updateLocation = (startVisit, endVisit, locationId) => {
 export const removeLocation= (locationId) => {
     return (dispatch) => {
         dispatch({type: 'LOADING'})
-        fetch(`${BASE_URL}/locations/${locationId}`, {method: 'DELETE'}).then(res => res.json()).then(item => {dispatch({type: 'DELETE_LOCATION', locationId: item.data.id})})
+        fetch(`${BASE_URL}/locations/${locationId}`, {method: 'DELETE'}).then(res => res.json()).then(item => {dispatch({type: 'DELETE_LOCATION', locationId: item.id})})
     }
 }
 
@@ -90,7 +90,7 @@ export const savePoi = (poiName, category, votes, notes, street, city, state, zi
             zip: zip,
             location_id: locationId
         }}
-        fetch(`${BASE_URL}/pois`, {
+        fetch(`${BASE_URL}/locations/locationIdpois`, {
             method: 'POST',
             headers: {'Accept': 'application/json', 'Content-Type':'application/json'},
             body: JSON.stringify(bodyData)

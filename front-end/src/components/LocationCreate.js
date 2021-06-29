@@ -30,14 +30,18 @@ class LocationCreate extends Component {
         
         return(
             <div>
+                <br/>
             <label>Add New Location:</label>
             <form onSubmit={this.handleSubmit}>
                 <label >Location Name:</label>
                 <input onChange={this.handleChange} id={'locName'} type={'text'}/>
+                <br/>
                 <label >Visit Start Date:</label>
                 <input onChange={this.handleChange} id={'startDatetime'} type={'datetime-local'}/>
+                <br/>
                 <label  >Visit End Date:</label>
                 <input onChange={this.handleChange}id={'endDatetime'} type={'datetime-local'}/>
+                <br/>
                 <input type={'submit'} />
             </form>
             </div>

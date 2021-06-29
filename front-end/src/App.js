@@ -19,18 +19,14 @@ class App extends Component {
     if(this.props.loading) {
       return <div>Loading...</div>
     } else {
-      // const locationRoutes = this.props.locations.map((location, key)=> <Route key={key} path={`locations/:locationId`} render={routerProps => <Location {...routerProps}/>}/>)
      return (<div>
         <Router>
           <div>
             <NavBar locations={this.props.locations}/>
               <Switch>
                 <Route exact path='/' component={Locations} />
-                <Route exact path='/locations/:id' render={routerProps => <Location {...routerProps}/>}/>
-                {/* <Route path='/locations/:id' component={Location}/> */}
-                {/* {locationRoutes} */}
+                <Route exact path="/locations/:id" render={routerProps => <Location location={this.props.find(loc => loc.id === +routerProps.match.params.id )}/>}/>
               </Switch>
-
           </div>
         </Router>
         

@@ -4,48 +4,44 @@ import {myPois} from '../actions/actions'
 import PoiCardDeck from './PoiCardDeck'
 import PlacesSearch from './PlacesSearch'
 import LocationDetails from '../components/LocationDetails'
-import {BrowserRouter as Router} from 'react-router-dom'
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import LocationLinks from '../components/LocationLinks'
 
 // I want to render poi list, poi search bar, add poi to saved
 
 class Location extends Component {
 
     componentDidMount(){
+        console.log('location componentDidMount')
         this.props.myPois(this.props.location.id)
+        
     }
 
     handleLoading = () => {
+        console.log('Location handleLoading props', this.props)
         if(this.props.loading) {
         return <div>Loading...</div>
         } else {
-            <Router>
+            console.log('Location loading is done')
+            return(<Router>
                 <div>
-                    
-                    <button render={<PoiCardDeck pois={this.props.pois}/>} onClick={this.handleClick}>Saved Points of Interest</button>
-                    <button render={<PlacesSearch locationId={this.props.location.id}/>} onClick={this.handleClick}>Search for Venues</button>
-                    {/* <Switch>
-                        <PoiCardDeck pois={this.props.pois}/>
-                        <PlacesSearch locationId={this.props.location.id}/>
-                    </Switch> */}
+                    <LocationLinks/>
+                    <Switch>
+                        <Route render={() =><PoiCardDeck pois={this.props.pois}/> }/>
+                        <Route render={() => <PlacesSearch locationId={this.props.location.id}/>} />
+                    </Switch>
                 </div>
 
-            </Router>
+            </Router>)
 
         }
     }
 
-    handleClick = (event) => {
-        return  event.target.render
-        //   will this work?
-        // would like a toggle feature, going back & forth between components
-    }
-
-
     render(){
         return(
             <div>
-                <LocationDetails location={this.props.location}/>
-                {this.handleLoading}
+                {/* <LocationDetails location={this.props.location}/> */}
+                {this.handleLoading()}
                 
             </div>
         )

@@ -8,7 +8,7 @@ import LocationDetails from '../components/LocationDetails'
 
 class Location extends Component {
     state={
-        display: false,
+        viewing: false,
         btnTitle: 'Search for Places to Visit'
     }
 
@@ -26,8 +26,8 @@ class Location extends Component {
             }
         }
         this.setState(prevState =>({
-            display: !prevState.display, 
-            btnTitle: newTitle
+            viewing: !prevState.viewing, 
+            btnTitle: newTitle()
         }))
     }
 
@@ -38,8 +38,8 @@ class Location extends Component {
                 <LocationDetails thisLocation={this.props.location.attributes}/>
                 <div>
                     <button onClick={this.toggleButton}>{this.state.btnTitle}</button>
-                    {!this.state.display && <PoiCardDeck locationId={this.props.location.id}/>}
-                    {this.state.display && <PlacesSearch locationName={this.props.location.attributes.name} locationId={this.props.location.id}/>}
+                    {!this.state.viewing && <PoiCardDeck locationId={this.props.location.id}/>}
+                    {this.state.viewing && <PlacesSearch locationName={this.props.location.attributes.name} locationId={this.props.location.id}/>}
                         
                 </div>
                 

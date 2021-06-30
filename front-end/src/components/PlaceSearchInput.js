@@ -22,10 +22,14 @@ class PoiSearchInput extends Component {
 
     render(){
         return(
-            <form onSubmit={this.handleSubmit}>
-                <input type={'text'} onChange={this.handleChange}/>
-                <input type={'submit'} />
-            </form>
+            <div>
+                <form onSubmit={this.handleSubmit}>
+                    <input type={'text'} onChange={this.handleChange}/>
+                    <input type={'submit'} />
+                </form>
+
+            </div>
+           
         )
     }
 }

@@ -31,7 +31,7 @@ class Locations extends Component {
                 <button id={location.id} onClick={this.handleClick}>Delete</button>
             </div>)
         })
-        return(<div><LocationCreate />;{this.handleLoading(locationData)}</div>)
+        return(<div><LocationCreate />{this.handleLoading(locationData)}</div>)
 
     
     }

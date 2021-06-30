@@ -5,7 +5,7 @@ import {myPois} from '../actions/actions'
 
 class PoiCardDeck extends Component {
     componentDidMount(){
-        console.log('location componentDidMount')
+        console.log('PoiCardDeck componentDidMount')
         this.props.myPois(this.props.locationId)
     }
 

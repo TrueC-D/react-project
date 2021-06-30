@@ -7,6 +7,16 @@ import { connect } from 'react-redux'
 
 
 class Locations extends Component {
+    handleLoading = (locationData) => {
+        if(!this.props.loading) {
+            console.log('Locations handleLoading props:', this.props)
+            return(
+                <div>
+                    {locationData}
+                </div>
+            )
+        }
+    }
 
     handleClick = (event) => {
         this.props.removeLocation(event.target.id)
@@ -21,19 +31,15 @@ class Locations extends Component {
                 <button id={location.id} onClick={this.handleClick}>Delete</button>
             </div>)
         })
-        return(
-            <div>
-                <LocationCreate />
-                {locationData}
-            </div>
-        )
+        return(<div><LocationCreate />;{this.handleLoading(locationData)}</div>)
 
     
     }
 }
 
 const mapStateToProps = state => ({
-    locations: state.locations
+    locations: state.locations,
+    loading: state.loading
 })
 
 export default connect(mapStateToProps, {removeLocation})(Locations)

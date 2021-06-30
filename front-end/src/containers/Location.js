@@ -1,47 +1,47 @@
 import React, {Component} from 'react'
-import { connect } from 'react-redux'
-import {myPois} from '../actions/actions'
 import PoiCardDeck from './PoiCardDeck'
 import PlacesSearch from './PlacesSearch'
 import LocationDetails from '../components/LocationDetails'
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
-import LocationLinks from '../components/LocationLinks'
+
 
 // I want to render poi list, poi search bar, add poi to saved
 
 class Location extends Component {
-
-    componentDidMount(){
-        console.log('location componentDidMount')
-        this.props.myPois(this.props.location.id)
-        
+    state={
+        display: false,
+        btnTitle: 'Search for Places to Visit'
     }
 
-    handleLoading = () => {
-        console.log('Location handleLoading props', this.props)
-        if(this.props.loading) {
-        return <div>Loading...</div>
-        } else {
-            console.log('Location loading is done')
-            return(<Router>
-                <div>
-                    <LocationLinks/>
-                    <Switch>
-                        <Route render={() =><PoiCardDeck pois={this.props.pois}/> }/>
-                        <Route render={() => <PlacesSearch locationId={this.props.location.id}/>} />
-                    </Switch>
-                </div>
-
-            </Router>)
-
+    toggleButton = () => {
+        const newTitle = () => {
+            let original = 'Search for Places to Visit'
+            let alternative = 'View Saved Points of Interest'
+            switch(this.state.btnTitle){
+                case original:
+                    return alternative
+                case alternative:
+                    return original
+                default:
+                    return original
+            }
         }
+        this.setState(prevState =>({
+            display: !prevState.display, 
+            btnTitle: newTitle
+        }))
     }
 
     render(){
+        console.log('thisLocation render props:', this.props)
         return(
             <div>
-                {/* <LocationDetails location={this.props.location}/> */}
-                {this.handleLoading()}
+                <LocationDetails thisLocation={this.props.location.attributes}/>
+                <div>
+                    <button onClick={this.toggleButton}>{this.state.btnTitle}</button>
+                    {!this.state.display && <PoiCardDeck locationId={this.props.location.id}/>}
+                    {this.state.display && <PlacesSearch locationName={this.props.location.attributes.name} locationId={this.props.location.id}/>}
+                        
+                </div>
                 
             </div>
         )
@@ -49,5 +49,4 @@ class Location extends Component {
     }
 }
 
-
-export default connect(null, {myPois})(Location)
+export default Location

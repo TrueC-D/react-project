@@ -15,23 +15,29 @@ class App extends Component {
    this.props.myLocations()
  }
 
-  handleLoading = () => {
-    if(this.props.loading) {
-      return <div>Loading...</div>
-    } else {
-     return (<div>
-        <Router>
-          <div>
-            <NavBar locations={this.props.locations}/>
-              <Switch>
-                <Route exact path='/' component={Locations} />
-                <Route exact path="/locations/:id" render={routerProps => <Location location={this.props.find(loc => loc.id === +routerProps.match.params.id )}/>}/>
-              </Switch>
-          </div>
-        </Router>
+  // handleLoading = () => {
+  //   if(this.props.loading) {
+  //     return <div>Loading...</div>
+  //   } else {
+  //    return (<div>
+  //       <Router>
+  //         <div>
+  //           <NavBar locations={this.props.locations}/>
+  //             <Switch>
+  //               <Route path="/locations/:id" render={routerProps => <Location location={this.props.locations.find(loc => loc.id === routerProps.match.params.id )}/>}/>
+  //               <Route exact path='/' component={Locations} />
+  //             </Switch>
+  //         </div>
+  //       </Router>
         
-      </div>)
+  //     </div>)
       
+  //   }
+  // }
+
+  handleLoading = () => {
+    if(this.props.loading){
+      return <div className={'loading'}><br/>Loading...</div>
     }
   }
   
@@ -42,7 +48,19 @@ class App extends Component {
     console.log('App render', this.props)
     // in labs movies (plural) was passed to the movieId.. but i wasn't sure if this was a good idea so i haven't done that here.
 
-    return (<div> {this.handleLoading()} </div>)
+    return (<div> 
+       <Router>
+          <div>
+            <NavBar locations={this.props.locations}/>
+              <Switch>
+                <Route path="/locations/:id" render={routerProps => <Location location={this.props.locations.find(loc => loc.id === routerProps.match.params.id )}/>}/>
+                <Route exact path='/' component={Locations} />
+              </Switch>
+              {this.handleLoading()} 
+          </div>
+        </Router>
+      
+      </div>)
   }
 
 
@@ -51,14 +69,5 @@ const mapStateToProps = state => ({
   locations: state.locations,
   loading: state.loading
 })
-
-// const mapStateToProps = state => {
-//   console.log('in App mapStateToProps')
-//   debugger
-//   return {
-//     locations: state.locationsReducer.locations,
-//     loading: state.locationsReducer.loading
-//   }
-// }
 
 export default connect(mapStateToProps, {myLocations})(App)

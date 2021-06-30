@@ -30,7 +30,7 @@ fetch(`${BASE_URL}/locations`).then(response => response.json()).then(locationDa
 export const myPois = (locationId) => {
     return (dispatch) => {
         dispatch({type: 'LOADING'})
-        fetch(`${BASE_URL}/locations/${locationId}/pois`).then(response => response.json()).then(poiData => dispatch({type: 'REFRESH_POIS', pois: [poiData]}))
+        fetch(`${BASE_URL}/locations/${locationId}/pois`).then(response => response.json()).then(poiData => dispatch({type: 'REFRESH_POIS', pois: poiData.data}))
         // response data needs to be checked
     }
 }
@@ -76,10 +76,12 @@ export const removeLocation= (locationId) => {
 
 // POI ACTIONS:
 
-export const savePoi = (poiName, category, votes, notes, street, city, state, zip, locationId) => {
+export const savePoi = (icon, poiName, category, votes, notes, street, city, state, zip, locationId) => {
     return (dispatch) => {
         dispatch({type: 'LOADING'})
         const bodyData = {poi: {
+            icon : icon,
+            // need to add icon to rails database if it works
             name: poiName,
             category: category,
             votes: votes,
@@ -99,16 +101,35 @@ export const savePoi = (poiName, category, votes, notes, street, city, state, zi
 }
 
 
-export const updatePoi = (votes, notes, poiId) => {
-    return (dispatch) =>{
+// export const updatePoi = (votes, notes, poiId) => {
+//     return (dispatch) =>{
+//         dispatch({type: 'LOADING'})
+//         const bodyData = {poi: {id: poiId, votes: votes, notes: notes}}
+//         fetch('url here', {
+//             method: 'PATCH',
+//             headers: {'Accept': 'application/json', 'Content-Type':'application/json'},
+//             body: JSON.stringify(bodyData)
+//         }).then(response => response.json()).then(responseJSON => {dispatch({type: 'UPDATE_POI', poi: responseJSON})})
+//     }
+// }
+
+export const changePoiVote = (votes, locationId, poiId, type) => {
+    return(dispatch) => {
         dispatch({type: 'LOADING'})
-        const bodyData = {poi: {id: poiId, votes: votes, notes: notes}}
-        fetch('url here', {
+        const bodyData = {poi: {votes: votes}}
+        fetch(`${BASE_URL}/locations/${locationId}/pois/${poiId}`, {
             method: 'PATCH',
             headers: {'Accept': 'application/json', 'Content-Type':'application/json'},
             body: JSON.stringify(bodyData)
-        }).then(response => response.json()).then(responseJSON => {dispatch({type: 'UPDATE_POI', poi: responseJSON})})
+        }).then(res => res.json()).then(item => {dispatch({type: type, poiId: item.id})})
+    }
+    
+}
 
+export const removePoi = (locationId, poiId) => {
+    return (dispatch) => {
+        dispatch({type: 'LOADING'})
+        fetch(`${BASE_URL}/locations/${locationId}/pois/${poiId}`, {method: 'DELETE'}).then(res => res.json()).then(item => {dispatch({type: 'DELETE_POI', poiId: item.id})})
     }
 }
 

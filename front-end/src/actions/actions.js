@@ -76,19 +76,19 @@ export const saveLocation=({locName, startDatetime, endDatetime}) => {
 }
 
 
-export const updateLocation = (startVisit, endVisit, locationId) => {
-    return (dispatch) =>{
-        dispatch({type: 'LOADING'})
-        const bodyData = {location: {start_visit: startVisit, end_visit: endVisit}}
-        // just changed body data to remove location id since this shouldn't be updated in patch. Have to check params in back-end and make sure it doesn't cause errors
-        fetch(`${BASE_URL}/locations/${locationId}`, {
-            method: 'PATCH',
-            headers: {'Accept': 'application/json', 'Content-Type':'application/json'},
-            body: JSON.stringify(bodyData)
-        }).then(response => response.json()).then(responseJSON => {dispatch({type: 'UPDATE_LOCATION', location: responseJSON})})
+// export const updateLocation = (startVisit, endVisit, locationId) => {
+//     return (dispatch) =>{
+//         dispatch({type: 'LOADING'})
+//         const bodyData = {location: {start_visit: startVisit, end_visit: endVisit}}
+//         // just changed body data to remove location id since this shouldn't be updated in patch. Have to check params in back-end and make sure it doesn't cause errors
+//         fetch(`${BASE_URL}/locations/${locationId}`, {
+//             method: 'PATCH',
+//             headers: {'Accept': 'application/json', 'Content-Type':'application/json'},
+//             body: JSON.stringify(bodyData)
+//         }).then(response => response.json()).then(responseJSON => {dispatch({type: 'UPDATE_LOCATION', location: responseJSON})})
 
-    }
-}
+//     }
+// }
 
 export const removeLocation= (locationId) => {
     return (dispatch) => {
@@ -134,15 +134,15 @@ export const savePoi = (icon, poiName, street, city, state, country, zip, locati
 //     }
 // }
 
-export const changePoiVote = (votes, locationId, poiId, type) => {
-    return(dispatch) => {
+export const changePoiVote = (votes, locationId, poiId) =>{
+    return (dispatch) => {
         dispatch({type: 'LOADING'})
         const bodyData = {poi: {votes: votes}}
         fetch(`${BASE_URL}/locations/${locationId}/pois/${poiId}`, {
             method: 'PATCH',
             headers: {'Accept': 'application/json', 'Content-Type':'application/json'},
             body: JSON.stringify(bodyData)
-        }).then(res => res.json()).then(item => {dispatch({type: type, poiId: item.id})})
+        }).then(res => res.json()).then(item => {dispatch({type: 'UPDATE_POI', poi: item.data})})
     }
     
 }

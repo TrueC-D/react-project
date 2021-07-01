@@ -1,5 +1,5 @@
 const reducer = (state= {pois: [], locations: [], places: [], loading: false}, action) =>{
-    let idx
+    // let idx
     debugger
 
     switch(action.type){
@@ -15,18 +15,23 @@ const reducer = (state= {pois: [], locations: [], places: [], loading: false}, a
         case 'ADD_POI':
                 // this works and has been implemented
             return {...state, pois: [...state.pois, action.poi], loading: false}
-        // case 'UPDATE_POI':
-        //         // not tested, not implemented
+        case 'UPDATE_POI':
+                // not tested, not implemented
+                return {...state, pois: state.pois.map(poi=> {
+                    return (poi.id === action.poi.id) ? action.poi : poi
+                }), loading: false}
+
         //     idx = state.pois.findIndex(poi=> poi.id === action.poi.id)
-        //     return {...state, pois: [...state.pois, state.pois[idx] = action.poi], loading: false}
-        case 'UPVOTE_POI':
-            // not tested, not implemented
-            // idx = state.pois.findIndex(poi=> poi.id === action.poi.id)
-            return {...state, pois: state.pois.map(poi => (poi.id === action.poiId) ? {...poi, attributes: {...poi.attributes, votes: poi.attributes.votes+1} }: poi ), loading:false}
-        case 'DOWNVOTE_POI':
-            // not tested, not implemented
-            // idx = state.pois.findIndex(poi=> poi.id === action.poi.id)
-            return{...state, pois: state.pois.map(poi => (poi.id === action.poiId) ? {...poi, attributes: {...poi.attributes, votes: poi.attributes.votes-1} }: poi ), loading: false}
+        // return {...state, pois: [...state.pois, state.pois[idx] = action.poi], loading: false}
+
+        // case 'UPVOTE_POI':
+        //     // not tested, not implemented
+        //     // idx = state.pois.findIndex(poi=> poi.id === action.poi.id)
+        //     return {...state, pois: state.pois.map(poi => (poi.id === action.poiId) ? {...poi, attributes: {...poi.attributes, votes: poi.attributes.votes+1} }: poi ), loading:false}
+        // case 'DOWNVOTE_POI':
+        //     // not tested, not implemented
+        //     // idx = state.pois.findIndex(poi=> poi.id === action.poi.id)
+        //     return{...state, pois: state.pois.map(poi => (poi.id === action.poiId) ? {...poi, attributes: {...poi.attributes, votes: poi.attributes.votes-1} }: poi ), loading: false}
         case 'DELETE_POI':
                 // this works and has been implemented
             const newPoiList = state.locations.filter(poi => poi.id!== action.locationId)

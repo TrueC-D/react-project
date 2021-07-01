@@ -21,7 +21,9 @@ class CardButtons extends Component {
     }
 
     votes = btnName => {
-        let num = this.props.item.votes
+        let num = this.props.item.attributes.votes
+        console.log('votes props', this.props)
+        console.log('num', num)
         switch(btnName){
             case 'UPVOTE_POI':
                 return num+1
@@ -33,16 +35,21 @@ class CardButtons extends Component {
     }
     
     handleClickChange = event => {
+        event.preventDefault()
        let btnName = event.target.name
+       
        let newVote = this.votes(btnName)
-       this.props.changePoiVote(newVote, this.props.item.attributes.location_id, this.props.item.id, btnName)   
+       console.log('votes:', newVote)
+       this.props.changePoiVote(newVote, this.props.item.attributes.location_id, this.props.item.id)   
        }
     
-    handleClickDelete = () => {
+    handleClickDelete = event => {
+        event.preventDefault()
         this.props.removePoi(this.props.item.attributes.location_id, this.props.item.id)
     }
 
     handleClickSave = event => {
+        event.preventDefault()
         const{
             // type,
             // item: {id},
@@ -58,7 +65,7 @@ class CardButtons extends Component {
     }
 
     render(){
-        return(<div>{this.buttons()}</div>)
+        return(<form>{this.buttons()}</form>)
     }
 }
 

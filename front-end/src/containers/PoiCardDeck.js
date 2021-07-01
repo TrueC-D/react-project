@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Card from '../components/PoiCard'
+import Card from '../components/Card'
 import {connect} from 'react-redux'
 import {myPois} from '../actions/actions'
 

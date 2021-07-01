@@ -4,9 +4,9 @@ import React from 'react';
 import PlaceSearchInput from '../components/PlaceSearchInput'
 import PlacesCardDeck from './PlacesCardDeck';
 
-const PlacesSearch = ({locationId}) =>{return(
+const PlacesSearch = ({locationName, locationId}) =>{return(
     <div>
-        <PlaceSearchInput locationId={locationId}/>
+        <PlaceSearchInput locationName={locationName} locationId={locationId}/>
         <PlacesCardDeck locationId={locationId}/>
     </div>
 

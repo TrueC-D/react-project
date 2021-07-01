@@ -7,6 +7,12 @@ class PoiSearchInput extends Component {
         searchTerm: ''
     }
 
+    today = () => {
+        const now = new Date()
+        const date = [now.getFullYear(), ("0"+(now.getMonth()+1)).slice(-2), ("0" + (now.getDate())).slice(-2)].join('')
+        return(date)
+    }
+
     handleChange = event => {
         this.setState({
             searchTerm: event.target.value
@@ -15,7 +21,7 @@ class PoiSearchInput extends Component {
 
     handleSubmit = event => {
         event.preventDefault()
-        this.props.fetchPlaces(this.state.searchTerm, this.props.locationId)
+        this.props.fetchPlaces(this.props.locationName, this.props.locationId, this.state.searchTerm, this.today())
         this.setState({searchTerm: ''})
     }
 

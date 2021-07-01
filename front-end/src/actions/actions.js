@@ -7,15 +7,57 @@ const BASE_URL = "http://localhost:3001"
 
 // EXTERNAL GET REQUEST:
 
-export const fetchPlaces=(locationName, searchTerm) => {
+// export const fetchPlaces=(locationName, searchTerm) => {
+//     return (dispatch) => {
+//         dispatch({type: 'LOADING'})
+//         fetch(`https://api.foursquare.com/v2/venues/explore?near=${locationName}&query=${searchTerm}&client_id=${process.env.REACT_APP_FOURSQUARE_CLIENT_ID}&client_secret=${process.env.REACT_APP_FOURSQUARE_CLIENT_SECRET}`).then(
+//             response => response.json()).then(data => {
+//                 dispatch({type: 'REFRESH_PLACES', places: [data.response.groups[0].items] })
+//             })
+//     }
+// }
+
+export const fetchPlaces=(locationName, locationId, searchTerm, date) => {
     return (dispatch) => {
         dispatch({type: 'LOADING'})
-        fetch(`https://api.foursquare.com/v2/venues/explore?near=${locationName}&query=${searchTerm}&client_id=${process.env.REACT_APP_FOURSQUARE_CLIENT_ID}&client_secret=${process.env.REACT_APP_FOURSQUARE_CLIENT_SECRET}`).then(
+        fetch(`https://api.foursquare.com/v2/venues/explore?near=${locationName}&query=${searchTerm}&client_id=${process.env.REACT_APP_FOURSQUARE_CLIENT_ID}&client_secret=${process.env.REACT_APP_FOURSQUARE_CLIENT_SECRET}&v=${date}`).then(
             response => response.json()).then(data => {
-                dispatch({type: 'REFRESH_PLACES', places: [data.response.groups[0].items] })
+                let places = data.response.groups[0].items.map(thisPlace => {
+                    console.log('original venue',thisPlace)
+                    const{venue:{
+                        id, name, 
+                        // categories: {icon: {prefix, suffix} ={prefix: 'undefined', suffix: 'undefined'},} = {icon: 'no icon'}, 
+                        categories: [{icon: {prefix, suffix}}],
+                        location: {address, city, state, postalCode, country} = {address: 'undefined'}
+                        
+                    }}= thisPlace
+
+                    let iconUrl = prefix+'88'+suffix
+                    // 88  is the size of the icon.  There are 4 sizes available -> 32, 44, 64, 88 
+                    // see this link:
+                    // https://stackoverflow.com/questions/24377797/get-the-icon-of-a-foursquare-category-from-its-id
+
+                    let item ={id: id, attributes: {icon_url: iconUrl, name: name, street: address, city: city, state: state, zip: postalCode, country: country, location_id: locationId }}
+                    return console.log('destructured fetchPlaces response', item)
+                }
+
+
+                )
+                console.log(places) 
+                // destructuring within item.venue:
+                // const{
+                //     venue: {
+                //         id,
+                //         name,
+                //         categories: {icon: {prefix, suffix}},
+                //         location: {address, city, state, postalCode, country}
+                //     }                   
+                // }
+
             })
     }
 }
+
 
 // INTERNAL GET REQUESTS:
 

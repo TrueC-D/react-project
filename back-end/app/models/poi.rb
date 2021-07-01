@@ -1,5 +1,5 @@
 class Poi < ApplicationRecord
-  validates :name, :category, :votes, :location_id, :street, :city, :state, :zip, presence: true
+  validates :name, :location_id, :street, :city, :state, :country, :zip, presence: true
   validates :name, uniqueness: true
 
   belongs_to :location

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_23_162448) do
+ActiveRecord::Schema.define(version: 2021_07_01_035736) do
 
   create_table "hours", force: :cascade do |t|
     t.string "day"
@@ -42,6 +42,8 @@ ActiveRecord::Schema.define(version: 2021_06_23_162448) do
     t.string "city"
     t.string "state"
     t.float "zip"
+    t.text "icon_url"
+    t.string "country"
     t.index ["location_id"], name: "index_pois_on_location_id"
   end
 

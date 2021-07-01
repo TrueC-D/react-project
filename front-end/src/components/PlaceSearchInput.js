@@ -19,7 +19,7 @@ class PoiSearchInput extends Component {
         })
     }
 
-    handleSubmit = event => {
+    handleClick = event => {
         event.preventDefault()
         this.props.fetchPlaces(this.props.locationName, this.props.locationId, this.state.searchTerm, this.today())
         this.setState({searchTerm: ''})
@@ -29,9 +29,9 @@ class PoiSearchInput extends Component {
     render(){
         return(
             <div>
-                <form onSubmit={this.handleSubmit}>
+                <form>
                     <input type={'text'} onChange={this.handleChange}/>
-                    <input type={'submit'} />
+                    <button onClick={this.handleClick}>Search</button>
                 </form>
 
             </div>

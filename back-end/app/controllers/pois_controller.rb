@@ -7,13 +7,12 @@ class PoisController < ApplicationController
     end
 
     def show
-        find_poi
-        options = {include: [:hours]}
-        render json: PoiSerializer.new(poi, options)
+        # options = {include: [:hours]}
+        # render json: PoiSerializer.new(find_poi, options)
+        render json: PoiSerializer.new(find_poi)
     end
 
     def create
-        location
         if location
             poi = Poi.new(poi_params)
             if poi.valid?
@@ -24,8 +23,7 @@ class PoisController < ApplicationController
     end
 
     def update
-        find_poi
-        location
+        poi = find_poi
         if location
             poi.assign_attributes(poi_params)
             if poi.valid?
@@ -42,7 +40,7 @@ class PoisController < ApplicationController
     private 
     
     def location
-        location = Location.find(id: params[:location_id])
+        location = Location.find(params[:location_id])
     end
 
     def find_poi
@@ -50,7 +48,7 @@ class PoisController < ApplicationController
     end
 
     def poi_params
-        params.require(:poi).permit(:name, :category, :votes, :notes, :street, :city, :state, :zip, :location_id)
+        params.require(:poi).permit(:name, :category, :icon_url, :votes, :notes, :street, :city, :state, :country, :zip, :location_id)
     end
 
     # update multiple models from controller?

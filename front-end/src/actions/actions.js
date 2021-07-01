@@ -1,3 +1,4 @@
+
 const BASE_URL = "http://localhost:3001"
 
 // IMPORTANT DEVELOPMENT NOTE:
@@ -6,17 +7,7 @@ const BASE_URL = "http://localhost:3001"
 // // https://create-react-app.dev/docs/adding-custom-environment-variables/
 
 // EXTERNAL GET REQUEST:
-
-// export const fetchPlaces=(locationName, searchTerm) => {
-//     return (dispatch) => {
-//         dispatch({type: 'LOADING'})
-//         fetch(`https://api.foursquare.com/v2/venues/explore?near=${locationName}&query=${searchTerm}&client_id=${process.env.REACT_APP_FOURSQUARE_CLIENT_ID}&client_secret=${process.env.REACT_APP_FOURSQUARE_CLIENT_SECRET}`).then(
-//             response => response.json()).then(data => {
-//                 dispatch({type: 'REFRESH_PLACES', places: [data.response.groups[0].items] })
-//             })
-//     }
-// }
-
+ 
 export const fetchPlaces=(locationName, locationId, searchTerm, date) => {
     return (dispatch) => {
         dispatch({type: 'LOADING'})
@@ -32,28 +23,18 @@ export const fetchPlaces=(locationName, locationId, searchTerm, date) => {
                         
                     }}= thisPlace
 
-                    let iconUrl = prefix+'88'+suffix
-                    // 88  is the size of the icon.  There are 4 sizes available -> 32, 44, 64, 88 
+                    let iconUrl = prefix+'bg_88'+suffix
+                    // 88  is the size of the icon. "bg" loads the background color so the image can be seen on a white page.  There are 4 sizes available -> 32, 44, 64, 88 
                     // see this link:
                     // https://stackoverflow.com/questions/24377797/get-the-icon-of-a-foursquare-category-from-its-id
 
                     let item ={id: id, attributes: {icon_url: iconUrl, name: name, street: address, city: city, state: state, zip: postalCode, country: country, location_id: locationId }}
-                    return console.log('destructured fetchPlaces response', item)
-                }
+                    console.log('destructured fetchPlaces response', item)
 
-
-                )
-                console.log(places) 
-                // destructuring within item.venue:
-                // const{
-                //     venue: {
-                //         id,
-                //         name,
-                //         categories: {icon: {prefix, suffix}},
-                //         location: {address, city, state, postalCode, country}
-                //     }                   
-                // }
-
+                    return item
+                })
+                console.log('places:', places) 
+                dispatch({type: 'REFRESH_PLACES', places: places  })
             })
     }
 }
@@ -118,27 +99,25 @@ export const removeLocation= (locationId) => {
 
 // POI ACTIONS:
 
-export const savePoi = (icon, poiName, category, votes, notes, street, city, state, zip, locationId) => {
+export const savePoi = (icon, poiName, street, city, state, country, zip, locationId) => {
     return (dispatch) => {
         dispatch({type: 'LOADING'})
         const bodyData = {poi: {
-            icon : icon,
-            // need to add icon to rails database if it works
+            icon_url : icon,
             name: poiName,
-            category: category,
-            votes: votes,
-            notes: notes,
             street: street,
             city: city,
+            country: country,
             state: state,
             zip: zip,
+            votes: 0,
             location_id: locationId
-        }}
-        fetch(`${BASE_URL}/locations/locationIdpois`, {
+        }};
+        fetch(`${BASE_URL}/locations/${locationId}/pois`, {
             method: 'POST',
             headers: {'Accept': 'application/json', 'Content-Type':'application/json'},
             body: JSON.stringify(bodyData)
-        }).then(response => response.json()).then(responseJSON => {dispatch({type: 'ADD_POI', poi: responseJSON})})
+        }).then(response => response.json()).then(responseJSON => {console.log('savePoi responseJSON.DATA', responseJSON.data); dispatch({type: 'ADD_POI', poi: responseJSON.data})})
     }
 }
 

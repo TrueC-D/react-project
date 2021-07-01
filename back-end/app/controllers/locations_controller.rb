@@ -5,9 +5,7 @@ class LocationsController < ApplicationController
     end
 
     def show
-        find_location
-        options = {include: [:pois]}
-        render json: LocationSerializer.new(location, options)
+        render json: LocationSerializer.new(find_location)
     end
 
     def create

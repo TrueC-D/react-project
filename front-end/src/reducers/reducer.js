@@ -7,28 +7,30 @@ const reducer = (state= {pois: [], locations: [], places: [], loading: false}, a
             // this works and has been implemented
             return {...state, loading: true}
         case 'REFRESH_PLACES':
-            // not tested, not implemented
+            // this works and has been implemented
             return {...state, places: action.places, loading: false}
         case 'REFRESH_POIS':
-                // not tested, not implemented
+                // this works and has been implemented
             return {...state, pois: action.pois, loading: false}
         case 'ADD_POI':
-                // not tested, not implemented
+                // this works and has been implemented
             return {...state, pois: [...state.pois, action.poi], loading: false}
         // case 'UPDATE_POI':
         //         // not tested, not implemented
         //     idx = state.pois.findIndex(poi=> poi.id === action.poi.id)
         //     return {...state, pois: [...state.pois, state.pois[idx] = action.poi], loading: false}
         case 'UPVOTE_POI':
+            // not tested, not implemented
             // idx = state.pois.findIndex(poi=> poi.id === action.poi.id)
             return {...state, pois: state.pois.map(poi => (poi.id === action.poiId) ? {...poi, attributes: {...poi.attributes, votes: poi.attributes.votes+1} }: poi ), loading:false}
         case 'DOWNVOTE_POI':
+            // not tested, not implemented
             // idx = state.pois.findIndex(poi=> poi.id === action.poi.id)
             return{...state, pois: state.pois.map(poi => (poi.id === action.poiId) ? {...poi, attributes: {...poi.attributes, votes: poi.attributes.votes-1} }: poi ), loading: false}
         case 'DELETE_POI':
-                // not tested, not implemented
-            idx = state.pois.findIndex(poi=> poi.id === action.poi.id)
-            return {...state, pois: [...state.pois.slice(0, idx), ...state.pois.slice(idx + 1)], loading: false}
+                // this works and has been implemented
+            const newPoiList = state.locations.filter(poi => poi.id!== action.locationId)
+            return {...state, pois: newPoiList, loading: false}
         case 'REFRESH_LOCATIONS':
              // this works and has been implemented
             return {...state, locations: action.locations, loading: false}

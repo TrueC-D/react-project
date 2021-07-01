@@ -21,14 +21,19 @@ class PoiCardDeck extends Component {
     }
     render(){
         console.log('PoiCardDeck props', this.props)
-        const cards = this.props.pois.map(poi=> <Card className={'card'} type={"poi"} item={poi}/>)
-        return(<div>{this.handleLoading(cards)}</div> )
+        const cards = this.props.pois.map(poi=> <Card key={poi.id} className={'card'} type={"poi"} item={poi}/>)
+        return(
+            <div>
+                <h3 className={'card-deck-title'}>Points of Interest:</h3>
+                {this.handleLoading(cards)}
+            </div> 
+        )
     }
 }
 
 const mapStateToProps = (state, props) => {
-    const pois = state.pois.filter(poi => poi.attributes.location_id === props.locationId)
+    const pois = state.pois.filter(poi => poi.attributes.location_id === parseInt(props.locationId, 10))
     return{pois, loading: state.loading}
 }
 
-export default connect(mapStateToProps, {myPois})(PoiCardDeck)
+export default connect(mapStateToProps,{myPois})(PoiCardDeck)

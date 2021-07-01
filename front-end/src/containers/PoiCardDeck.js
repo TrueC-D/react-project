@@ -21,7 +21,7 @@ class PoiCardDeck extends Component {
     }
     render(){
         console.log('PoiCardDeck props', this.props)
-        const cards = this.props.pois.map(poi=> <Card key={poi.id} className={'card'} type={"poi"} item={poi}/>)
+        const cards = this.props.pois.map(poi=> <Card key={poi.id} type={"poi"} item={poi}/>)
         return(
             <div>
                 <h3 className={'card-deck-title'}>Points of Interest:</h3>

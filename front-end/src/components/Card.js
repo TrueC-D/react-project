@@ -19,7 +19,7 @@ const Card = ({item, type}) =>{
     // </div>: null
 
 
-    return(<div id={`card-${id}`}>
+    return(<div className={'card'} id={`card-${id}`}>
         <img src={attr.icon_url} alt={`${attr.name} Icon`}/>
         <h3>{title}</h3>
         <CardButtons type={type} item={item}/>

@@ -14,12 +14,12 @@ export const fetchPlaces=(locationName, locationId, searchTerm, date) => {
         fetch(`https://api.foursquare.com/v2/venues/explore?near=${locationName}&query=${searchTerm}&client_id=${process.env.REACT_APP_FOURSQUARE_CLIENT_ID}&client_secret=${process.env.REACT_APP_FOURSQUARE_CLIENT_SECRET}&v=${date}`).then(
             response => response.json()).then(data => {
                 let places = data.response.groups[0].items.map(thisPlace => {
-                    console.log('original venue',thisPlace)
+                    console.log('original venue', thisPlace)
                     const{venue:{
                         id, name, 
                         // categories: {icon: {prefix, suffix} ={prefix: 'undefined', suffix: 'undefined'},} = {icon: 'no icon'}, 
                         categories: [{icon: {prefix, suffix}}],
-                        location: {address, city, state, postalCode, country} = {address: 'undefined'}
+                        location: {address = {address: '[street not found]'}, city = { city: '[city not found]'}, state={ state: '[state not found]'}, postalCode, country={ country: '[country not found]'}} = {address: '[address not found]'}
                         
                     }}= thisPlace
 
@@ -102,6 +102,7 @@ export const removeLocation= (locationId) => {
 export const savePoi = (icon, poiName, street, city, state, country, zip, locationId) => {
     return (dispatch) => {
         dispatch({type: 'LOADING'})
+        let newZip = (zip === undefined) ? 0 : zip
         const bodyData = {poi: {
             icon_url : icon,
             name: poiName,
@@ -109,7 +110,7 @@ export const savePoi = (icon, poiName, street, city, state, country, zip, locati
             city: city,
             country: country,
             state: state,
-            zip: zip,
+            zip: newZip,
             votes: 0,
             location_id: locationId
         }};
@@ -122,7 +123,7 @@ export const savePoi = (icon, poiName, street, city, state, country, zip, locati
 }
 
 
-// export const updatePoi = (votes, notes, poiId) => {
+// export const updatePoi = (votes, notes, category, poiId) => {
 //     return (dispatch) =>{
 //         dispatch({type: 'LOADING'})
 //         const bodyData = {poi: {id: poiId, votes: votes, notes: notes}}

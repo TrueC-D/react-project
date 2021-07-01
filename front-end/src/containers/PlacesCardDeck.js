@@ -16,7 +16,7 @@ class PlacesCardDeck extends Component {
    
     render(){
         console.log('PlacesCardDeck props', this.props)
-        const cards = this.props.places.map(place=> <Card key={place.id} className={'card'} type={'place'} item={place}/>)
+        const cards = this.props.places.map(place=> <Card key={place.id} type={'place'} item={place}/>)
         return(
             <div>
                 <h3 className={'card-deck-title'}>Search Results</h3>

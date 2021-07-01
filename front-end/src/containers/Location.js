@@ -3,9 +3,6 @@ import PoiCardDeck from './PoiCardDeck'
 import PlacesSearch from './PlacesSearch'
 import LocationDetails from '../components/LocationDetails'
 
-
-// I want to render poi list, poi search bar, add poi to saved
-
 class Location extends Component {
     state={
         viewing: false,

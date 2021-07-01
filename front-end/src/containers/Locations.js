@@ -3,8 +3,6 @@ import LocationCreate from '../components/LocationCreate'
 import LocationDetails from '../components/LocationDetails'
 import { removeLocation } from '../actions/actions'
 import { connect } from 'react-redux'
-// I want to render current locations - start visit & end visit,  create & delete locations
-
 
 class Locations extends Component {
     handleLoading = (locationData) => {

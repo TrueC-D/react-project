@@ -10,6 +10,7 @@ const Card = ({item, type}) =>{
 
 
     const title = (type === 'poi') ? `${attr.name} - Votes: ${attr.votes}`: `${attr.name}`
+    const newZip = (attr.zip === 0 || undefined) ? '[zip not found]' : attr.zip
 
     // if i develp the app further to include category & notes:
     
@@ -25,7 +26,7 @@ const Card = ({item, type}) =>{
         <CardButtons type={type} item={item}/>
         {/* {poiFields} */}
         <p>Address: {`${attr.street}`}</p>
-        <p>{` ${attr.city}, ${attr.state} ${attr.zip}`}</p>
+        <p>{` ${attr.city}, ${attr.state} ${newZip}`}</p>
       
         
     </div>)

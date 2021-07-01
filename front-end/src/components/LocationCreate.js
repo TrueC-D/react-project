@@ -19,7 +19,6 @@ class LocationCreate extends Component {
         event.preventDefault()
         debugger
         this.props.saveLocation(this.state)
-        // check if i passed in correct parameters
         this.setState({ locName: '',
         startDatetime: '',
         endDatetime: ''})

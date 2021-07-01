@@ -1,5 +1,3 @@
-// want this to render upvote, remove vote, delete card if type="poi", want to render save as point of interest if cart type= 'place'
-
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {changePoiVote, removePoi, savePoi} from '../actions/actions'
@@ -51,8 +49,6 @@ class CardButtons extends Component {
     handleClickSave = event => {
         event.preventDefault()
         const{
-            // type,
-            // item: {id},
             item: {attributes: {icon_url, name, street, city, state, country, zip, location_id},}
          } = this.props
         //  can the ...rest grab all the attributes so i don't have to type them?
@@ -60,17 +56,11 @@ class CardButtons extends Component {
 
 
          this.props.savePoi(icon_url, name, street, city, state, country, zip, location_id)
-
-        // action: this.props.savePoi(icon, poiName, category, votes, notes, street, city, state, zip, location) * need to add icon to database if able to fetch
-    }
+ }
 
     render(){
         return(<form>{this.buttons()}</form>)
     }
 }
-
-// savePoi Action needs these parameters:
-// icon, poiName, category, votes, notes, street, city, state, zip, locationId
-
 
 export default connect(null, {changePoiVote, removePoi, savePoi})(CardButtons)

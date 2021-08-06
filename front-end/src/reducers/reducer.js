@@ -1,6 +1,5 @@
 const reducer = (state= {pois: [], locations: [], places: [], loading: false}, action) =>{
-    debugger
-
+    
     switch(action.type){
         case 'LOADING':
             return {...state, loading: true}
@@ -15,7 +14,7 @@ const reducer = (state= {pois: [], locations: [], places: [], loading: false}, a
                     return (poi.id === action.poi.id) ? action.poi : poi
                 }), loading: false}
         case 'DELETE_POI':
-            const newPoiList = state.locations.filter(poi => poi.id!== action.locationId)
+            const newPoiList = state.pois.filter(poi => poi.id!== action.poiId.toString())
             return {...state, pois: newPoiList, loading: false}
         case 'REFRESH_LOCATIONS':
             return {...state, locations: action.locations, loading: false}

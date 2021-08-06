@@ -51,6 +51,9 @@ class CardButtons extends Component {
         const{
             item: {attributes: {icon_url, name, street, city, state, country, zip, location_id},}
          } = this.props
+
+        //  const{ item: {...attributes}}
+
         //  can the ...rest grab all the attributes so i don't have to type them?
         //  would be nice if i coult make this destructure item available to all handlers but i think i would have to use hooks
 
